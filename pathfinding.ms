@@ -1,3 +1,4 @@
+
 import "coreUtils"
 import "reverseList"
 ensureImport "Point"
@@ -33,7 +34,8 @@ isPassable = function(x, y)
   //if animal or player is on path add tile and wait for it to move
   bool = (tile.passable == 1 or 
   tile.type == "Character" or
-  tile.type == "BotObject") and tile.type != "Building"
+  tile.type == "BotObject") and 
+  tile.type != "Building"
   return bool
 end function
 
