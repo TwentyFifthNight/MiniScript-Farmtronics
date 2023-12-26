@@ -130,8 +130,9 @@ me.refill = function
   me.turn(directionToWater)
   me.water
   
-  for i in range(-1, path.len * -1)
-    me.moveTo(path[i].x, path[i].y)
+  for i in range(0, path.len - 1)
+    point = path[-i - 1]
+    me.moveTo(point.x, point.y)
   end for
   me.turn(facing)
 end function
