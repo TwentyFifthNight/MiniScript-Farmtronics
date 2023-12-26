@@ -33,3 +33,4 @@ You can set Bot position after work and water source position in "wateringBot.ms
 * If the bot encounters Player or Animal on it's path, it will wait until the path is clear.
 * There is no way for bot to go through fence or gate, so fields and water source shouldn't be fenced off.
 * Bot can pass through scarecrows and trellis crops.
+* Remember that the bot works only when you are on the farm.
