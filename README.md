@@ -34,6 +34,7 @@ You can set Bot position after work and water source position in "wateringBot.ms
 * There is no way for bot to go through fence or gate, so fields and water source shouldn't be fenced off.
 * Bot can pass through scarecrows and trellis crops.
 * Remember that the bot works only when you are on the farm.
+* Bot will only water fields with some crop planted on it.
 
 ## Acknowledgments
 
