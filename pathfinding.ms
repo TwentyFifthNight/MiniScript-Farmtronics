@@ -72,6 +72,10 @@ globals.findPath = function(origin, goal)
     return []
   end if
   
+  if isEqual(origin, goal) then
+    return []
+  end if
+  
   closedList = []
   openList = [origin]
   
@@ -82,21 +86,17 @@ globals.findPath = function(origin, goal)
     openList.remove(index)
     closedList.push(currentPoint)
     
-    if(isEqual(currentPoint, goal)) then
-      return createPath(origin, currentPoint)
-    end if
-    
     neighbours = currentPoint.getNeighbours
     for neighbour in neighbours
       if not isPassable(neighbour.x, neighbour.y) then
         closedList.push(neighbour)
         continue
       end if
-    
+      
       if findPointInList(closedList, neighbour) != null then
         continue
       end if
-    
+      
       neighbour.calculateF(currentPoint, goal)
       
       element = findPointInList(openList, neighbour)
@@ -105,8 +105,13 @@ globals.findPath = function(origin, goal)
           continue
         end if
       end if
-    
+      
       neighbour.parent = currentPoint
+      
+      if isEqual(neighbour, goal) then
+        return createPath(origin, neighbour) 
+      end if
+      
       openList.push(neighbour)
     end for
   end while
