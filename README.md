@@ -2,7 +2,7 @@
 
 Scripts for Stardev Valley - Farmtronics mod that automates watering plants. 
 
-## Usage
+## Installation
 
 * Copy files with .ms extension from project to /usr/lib directory (create if doesn't exist)
 * You can find the directory mentioned above in "C:\Users\\\<User Name>\AppData\Roaming\StardewValley\Saves\\\<Save>\strout.farmtronics\usrdisks\\\<Some Numbers>\\"
@@ -34,3 +34,7 @@ You can set Bot position after work and water source position in "wateringBot.ms
 * There is no way for bot to go through fence or gate, so fields and water source shouldn't be fenced off.
 * Bot can pass through scarecrows and trellis crops.
 * Remember that the bot works only when you are on the farm.
+
+## Acknowledgments
+
+* [A* algorithm](https://www.geeksforgeeks.org/a-search-algorithm/)
