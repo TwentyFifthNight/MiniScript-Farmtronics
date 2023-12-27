@@ -39,3 +39,5 @@ You can set Bot position after work and water source position in "wateringBot.ms
 ## Acknowledgments
 
 * [A* algorithm](https://www.geeksforgeeks.org/a-search-algorithm/)
+* [MiniScript Manual](https://miniscript.org/)
+* [Tricks with MiniScript Import](https://luminaryapps.com/blog/advanced-import/index.html)
