@@ -1,4 +1,3 @@
-
 // Watering Bot
 import "pathfinding"
 
@@ -11,10 +10,30 @@ waterSourceX = 69
 waterSourceY = 28
 directionToWater = directions["East"]
 
-me.water = function
-  me.checkEmptyCan
+me.refill = function
+  origin = new Point
+  origin.x = me.position.x
+  origin.y = me.position.y
+  facing = me.facing
+  goal = new Point
+  goal.x = waterSourceX
+  goal.y = waterSourceY
+  
+  path = findPath(origin, goal)
+  for point in path
+    me.moveTo(point.x, point.y)
+  end for
+  me.turn(directionToWater)
   me.select "Watering Can"
   me.useTool
+  
+  if path.len > 0 then
+    for i in range(-1, (path.len * -1))
+      point = path[i]
+      me.moveTo(point.x, point.y)
+    end for
+  end if
+  me.turn(facing)
 end function
 
 me.checkEmptyCan = function
@@ -24,6 +43,12 @@ me.checkEmptyCan = function
   if me.inventory[me.currentToolIndex].waterLeft < 1 then
     me.refill
   end if
+end function
+
+me.water = function
+  me.checkEmptyCan
+  me.select "Watering Can"
+  me.useTool
 end function
 
 isDryCropAtTile = function(tile)
@@ -66,6 +91,7 @@ end function
 
 me.moveForward = function
   if isAheadOccupied then
+    print "Waiting for obstacle to move"
     wait 1
   else
     me.forward
@@ -73,6 +99,28 @@ me.moveForward = function
 end function
 
 me.moveTo = function(x, y)
+  if me.position.y > y then
+    me.turn(directions["North"])
+  else if me.position.y < y then
+    me.turn(directions["South"])
+  end if
+  
+  while me.position.y != y
+    me.moveForward
+  end while
+  
+  if me.position.x < x then
+    me.turn(directions["East"])
+  else if me.position.x > x then
+    me.turn(directions["West"])
+  end if
+  
+  while me.position.x != x
+    me.moveForward
+  end while
+end function
+
+me.moveToAndWater = function(x, y)
   if me.position.y > y then
     me.turn(directions["North"])
   else if me.position.y < y then
@@ -112,29 +160,8 @@ moveThroughPath = function(path)
       print "Path element wasnt a Point"
       return
     end if
-    me.moveTo(point.x, point.y)
+    me.moveToAndWater(point.x, point.y)
   end for
-end function
-
-me.refill = function
-  origin = new Point
-  origin.x = me.position.x
-  origin.y = me.position.y
-  facing = me.facing
-  goal = new Point
-  goal.x = waterSourceX
-  goal.y = waterSourceY
-  
-  path = findPath(origin, goal)
-  moveThroughPath(path)
-  me.turn(directionToWater)
-  me.water
-  
-  for i in range(0, path.len - 1)
-    point = path[-i - 1]
-    me.moveTo(point.x, point.y)
-  end for
-  me.turn(facing)
 end function
 
 distance = function(point1, point2)
@@ -153,8 +180,8 @@ end function
 waterField = function
   //startup combined with this script
   //might create a little freeze so
-  //script will wait 5 seconds before starting
-  wait 5
+  //script will wait 2 seconds before starting
+  wait 2
   
   previousPoint = new Point
   previousPoint.x = me.position.x
@@ -182,8 +209,9 @@ waterField = function
       goal = new Point
       goal.x = x
       goal.y = y
+      
       if distance(goal, previousPoint) == 1 then
-        me.moveTo(x, y)
+        me.moveToAndWater(x, y)
       else
         path = findPath(previousPoint, goal)
         moveThroughPath(path)
@@ -210,7 +238,7 @@ end function
 text.clear
 
 main = function
-  if me.isBot != null then
+  if me.isBot != 0 then
     print "Bot is starting"
     waterField
   end if
